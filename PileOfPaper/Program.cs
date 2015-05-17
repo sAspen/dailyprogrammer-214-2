@@ -29,7 +29,7 @@ namespace PileOfPaper
                         while ((line = sr.ReadLine()) != null)
                         {
                             tokens = line.Split(' ');
-                            pile.Add(new Rectangle(Int32.Parse(tokens[0]),
+                            pile.Add(Rectangle.New(Int32.Parse(tokens[0]),
                                 Int32.Parse(tokens[1]),
                                 Int32.Parse(tokens[2]),
                                 Int32.Parse(tokens[3]),

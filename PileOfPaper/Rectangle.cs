@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PileOfPaper
 {
-    class Rectangle 
+    class Rectangle
     {
         private enum Vertice
         {
@@ -28,7 +28,7 @@ namespace PileOfPaper
         public int Width, Height;
         private int _Start_X, _Start_Y;
 
-        public Rectangle(int color, int start_X, int start_Y, int width, int height)
+        private Rectangle(int color, int start_X, int start_Y, int width, int height)
         {
             if (!(width > 0 && height > 0))
             {
@@ -41,8 +41,18 @@ namespace PileOfPaper
             Width = width;
             Height = height;
         }
-        
-        public int A_X 
+
+        public static Rectangle New(int color, int start_X, int start_Y, int width, int height)
+        {
+            if (!(width > 0 && height > 0))
+            {
+                return null;
+            }
+
+            return new Rectangle(color, start_X, start_Y, width, height);
+        }
+
+        public int A_X
         {
             get
             {
@@ -50,15 +60,15 @@ namespace PileOfPaper
             }
         }
 
-        public int A_Y 
+        public int A_Y
         {
             get
             {
                 return _Start_Y;
             }
         }
-        
-        public int B_X 
+
+        public int B_X
         {
             get
             {
@@ -66,15 +76,15 @@ namespace PileOfPaper
             }
         }
 
-        public int B_Y 
+        public int B_Y
         {
             get
             {
                 return A_Y;
             }
         }
-        
-        public int C_X 
+
+        public int C_X
         {
             get
             {
@@ -82,15 +92,15 @@ namespace PileOfPaper
             }
         }
 
-        public int C_Y 
+        public int C_Y
         {
             get
             {
                 return A_Y + Height - 1;
             }
         }
-        
-        public int D_X 
+
+        public int D_X
         {
             get
             {
@@ -98,17 +108,17 @@ namespace PileOfPaper
             }
         }
 
-        public int D_Y 
+        public int D_Y
         {
             get
             {
                 return C_Y;
             }
         }
-        
+
         public bool IsPointInside(int x, int y)
         {
-            return x >= A_X && x <= B_X && y >= A_Y && y <= C_Y; 
+            return x >= A_X && x <= B_X && y >= A_Y && y <= C_Y;
         }
 
         private Rectangle[] _Complement(Rectangle subtrahend)
@@ -123,7 +133,7 @@ namespace PileOfPaper
             int complementHeight = subtrahend.A_Y - A_Y;
             if (complementWidth > 0 && complementHeight > 0)
             {
-                complement[0] = new Rectangle(Color, _Start_X, _Start_Y,
+                complement[0] = Rectangle.New(Color, _Start_X, _Start_Y,
                     complementWidth, complementHeight);
             }
 
@@ -131,7 +141,7 @@ namespace PileOfPaper
             complementHeight = C_Y - subtrahend.C_Y;
             if (complementWidth > 0 && complementHeight > 0)
             {
-                complement[1] = new Rectangle(Color, _Start_X, 
+                complement[1] = Rectangle.New(Color, _Start_X,
                     subtrahend.C_Y + 1,
                     complementWidth, complementHeight);
             }
@@ -140,7 +150,7 @@ namespace PileOfPaper
             complementHeight = subtrahend.Height;
             if (complementWidth > 0 && complementHeight > 0)
             {
-                complement[2] = new Rectangle(Color, _Start_X,
+                complement[2] = Rectangle.New(Color, _Start_X,
                     subtrahend.A_Y,
                     complementWidth, complementHeight);
             }
@@ -149,12 +159,12 @@ namespace PileOfPaper
             complementHeight = subtrahend.Height;
             if (complementWidth > 0 && complementHeight > 0)
             {
-                complement[3] = new Rectangle(Color, 
+                complement[3] = Rectangle.New(Color,
                     subtrahend.B_X + 1,
                     subtrahend.B_Y,
                     complementWidth, complementHeight);
             }
-            
+
             return complement;
         }
 
@@ -174,7 +184,7 @@ namespace PileOfPaper
                         int complementHeight = Height;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[0] = Rectangle.New(Color,
                                 _Start_X,
                                 _Start_Y,
                                 complementWidth,
@@ -184,7 +194,7 @@ namespace PileOfPaper
                         complementHeight = Height;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[1] = Rectangle.New(Color,
                                 subtrahend.D_X + 1,
                                 _Start_Y,
                                 complementWidth,
@@ -194,7 +204,7 @@ namespace PileOfPaper
                         complementHeight = C_Y - subtrahend.C_Y;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[2] = Rectangle.New(Color,
                                 subtrahend.C_X,
                                 subtrahend.C_Y,
                                 complementWidth,
@@ -205,20 +215,20 @@ namespace PileOfPaper
                 case Vertice.East:
                     {
                         int complementWidth = Width;
-                        int complementHeight = subtrahend.A_Y - C_Y;
+                        int complementHeight = subtrahend.A_Y - A_Y;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[0] = Rectangle.New(Color,
                                 _Start_X,
                                 _Start_Y,
                                 complementWidth,
                                 complementHeight);
                         }
                         complementWidth = Width;
-                        complementHeight = C_Y - subtrahend.B_Y;
+                        complementHeight = C_Y - subtrahend.C_Y;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[1] = Rectangle.New(Color,
                                 _Start_X,
                                 subtrahend.C_Y + 1,
                                 complementWidth,
@@ -228,7 +238,7 @@ namespace PileOfPaper
                         complementHeight = subtrahend.Height;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[2] = Rectangle.New(Color,
                                 subtrahend.B_X + 1,
                                 subtrahend.A_Y,
                                 complementWidth,
@@ -242,7 +252,7 @@ namespace PileOfPaper
                         int complementHeight = subtrahend.A_Y - C_Y;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[0] = Rectangle.New(Color,
                                 _Start_X,
                                 _Start_Y,
                                 complementWidth,
@@ -252,7 +262,7 @@ namespace PileOfPaper
                         complementHeight = C_Y - subtrahend.B_Y;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[1] = Rectangle.New(Color,
                                 _Start_X,
                                 subtrahend.C_Y + 1,
                                 complementWidth,
@@ -262,7 +272,7 @@ namespace PileOfPaper
                         complementHeight = subtrahend.Height;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[2] = Rectangle.New(Color,
                                 _Start_X,
                                 subtrahend.A_Y,
                                 complementWidth,
@@ -276,7 +286,7 @@ namespace PileOfPaper
                         int complementHeight = Height;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[0] = Rectangle.New(Color,
                                 _Start_X,
                                 _Start_Y,
                                 complementWidth,
@@ -286,7 +296,7 @@ namespace PileOfPaper
                         complementHeight = Height;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[1] = Rectangle.New(Color,
                                 subtrahend.B_X + 1,
                                 _Start_Y,
                                 complementWidth,
@@ -296,7 +306,7 @@ namespace PileOfPaper
                         complementHeight = subtrahend.A_Y - A_Y;
                         if (complementWidth > 0 && complementHeight > 0)
                         {
-                            complement[0] = new Rectangle(Color,
+                            complement[2] = Rectangle.New(Color,
                                 subtrahend.C_X,
                                 _Start_Y,
                                 complementWidth,
@@ -307,7 +317,7 @@ namespace PileOfPaper
             }
 
 
-            return null;
+            return complement;
         }
 
         private Rectangle[] _Complement(Rectangle subtrahend, Corner corner)
@@ -325,14 +335,14 @@ namespace PileOfPaper
                         int intersectionWidth = subtrahend.D_X - A_X + 1;
                         int intersectionHeight = subtrahend.D_Y - A_Y + 1;
 
-                        complement[0] = new Rectangle(Color, 
+                        complement[0] = Rectangle.New(Color,
                             _Start_X,
-                            subtrahend.D_Y + 1, 
+                            subtrahend.D_Y + 1,
                             Width,
                             Height - intersectionHeight);
-                        complement[1] = new Rectangle(Color, 
-                            subtrahend.D_X + 1, 
-                            _Start_Y, 
+                        complement[1] = Rectangle.New(Color,
+                            subtrahend.D_X + 1,
+                            _Start_Y,
                             Width - intersectionWidth,
                             intersectionHeight);
                     }
@@ -342,13 +352,13 @@ namespace PileOfPaper
                         int intersectionWidth = B_X - subtrahend.C_X + 1;
                         int intersectionHeight = subtrahend.C_Y - B_Y + 1;
 
-                        complement[0] = new Rectangle(Color,
+                        complement[0] = Rectangle.New(Color,
                             _Start_X,
                             subtrahend.C_Y + 1,
                             Width,
                             Height - intersectionHeight);
-                        complement[1] = new Rectangle(Color,
-                            _Start_X, 
+                        complement[1] = Rectangle.New(Color,
+                            _Start_X,
                             _Start_Y,
                             Width - intersectionWidth,
                             intersectionHeight);
@@ -359,12 +369,12 @@ namespace PileOfPaper
                         int intersectionWidth = subtrahend.B_X - C_X + 1;
                         int intersectionHeight = C_Y - subtrahend.B_Y + 1;
 
-                        complement[0] = new Rectangle(Color,
+                        complement[0] = Rectangle.New(Color,
                             _Start_X,
                             _Start_Y,
                             Width,
                             Height - intersectionHeight);
-                        complement[1] = new Rectangle(Color,
+                        complement[1] = Rectangle.New(Color,
                             subtrahend.B_X + 1,
                             subtrahend.B_Y,
                             Width - intersectionWidth,
@@ -376,12 +386,12 @@ namespace PileOfPaper
                         int intersectionWidth = D_X - subtrahend.A_X + 1;
                         int intersectionHeight = D_Y - subtrahend.A_Y + 1;
 
-                        complement[0] = new Rectangle(Color,
+                        complement[0] = Rectangle.New(Color,
                             _Start_X,
                             _Start_Y,
                             Width,
                             Height - intersectionHeight);
-                        complement[1] = new Rectangle(Color,
+                        complement[1] = Rectangle.New(Color,
                             _Start_X,
                             subtrahend.B_Y,
                             Width - intersectionWidth,
@@ -393,9 +403,48 @@ namespace PileOfPaper
             return complement;
         }
 
+        private Rectangle[] _ComplementInverse(Rectangle subtrahend, Vertice vertice)
+        {
+            Rectangle[] complement = new Rectangle[1];
+
+            switch (vertice)
+            {
+                case Vertice.North:
+                    {
+                        complement[0] = Rectangle.New(Color,
+                            _Start_X, subtrahend.C_Y + 1,
+                            Width, C_Y - subtrahend.C_Y);
+                    }
+                    break;
+                case Vertice.West:
+                    {
+                        complement[0] = Rectangle.New(Color,
+                            subtrahend.B_X + 1, _Start_Y,
+                            B_X - subtrahend.B_X , Height);
+                    }
+                    break;
+                case Vertice.East:
+                    {
+                        complement[0] = Rectangle.New(Color,
+                            _Start_X, _Start_Y,
+                            subtrahend.A_X - A_X, Height);
+                    }
+                    break;
+                case Vertice.South:
+                    {
+                        complement[0] = Rectangle.New(Color,
+                            _Start_X, _Start_Y,
+                            Width, subtrahend.A_Y - A_Y );
+                    }
+                    break;
+            }
+
+
+            return complement;
+        }
+
         public Rectangle[] Complement(Rectangle subtrahend)
         {
-
             if (IsPointInside(subtrahend.A_X, subtrahend.A_Y) &&
                 IsPointInside(subtrahend.B_X, subtrahend.B_Y) &&
                 IsPointInside(subtrahend.C_X, subtrahend.C_Y) &&
@@ -403,7 +452,7 @@ namespace PileOfPaper
             {
                 //Subtrahend completely overlaps this
                 return _Complement(subtrahend);
-            } 
+            }
             else if (IsPointInside(subtrahend.A_X, subtrahend.A_Y))
             {
                 if (IsPointInside(subtrahend.B_X, subtrahend.B_Y))
@@ -444,7 +493,34 @@ namespace PileOfPaper
             else if (IsPointInside(subtrahend.D_X, subtrahend.D_Y))
             {
                 return _Complement(subtrahend, Corner.NW);
-            } 
+            }
+
+
+            else if (subtrahend.IsPointInside(A_X, A_Y))
+            {
+                if (subtrahend.IsPointInside(B_X, B_Y))
+                {
+                    return _ComplementInverse(subtrahend, Vertice.North);
+                }
+                else if (subtrahend.IsPointInside(C_X, C_Y))
+                {
+                    return _ComplementInverse(subtrahend, Vertice.West);
+                }
+            }
+            else if (subtrahend.IsPointInside(B_X, B_Y))
+            {
+                if (subtrahend.IsPointInside(D_X, D_Y))
+                {
+                    return _ComplementInverse(subtrahend, Vertice.East);
+                }
+            }
+            else if (subtrahend.IsPointInside(C_X, C_Y))
+            {
+                if (subtrahend.IsPointInside(D_X, D_Y))
+                {
+                    return _ComplementInverse(subtrahend, Vertice.South);
+                }
+            }
 
             return null;
         }
