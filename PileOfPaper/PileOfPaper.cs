@@ -24,14 +24,14 @@ namespace PileOfPaper
 
         public void Add(Rectangle r)
         {
-            //Colors = Math.Max(Colors, r.Color);
+            Colors = Math.Max(Colors, r.Color);
             OriginalRectangles.Add(r);
         }
 
         public void Construct()
         {
-            OriginalRectangles = OriginalRectangles.OrderBy(r => r.Color).ToList();
-            Colors = OriginalRectangles.Last().Color;
+            //OriginalRectangles = OriginalRectangles.OrderBy(r => r.Color).ToList();
+            //Colors = OriginalRectangles.Last().Color;
             foreach (Rectangle r in OriginalRectangles)
             {
                 ToBeAdded.Push(r);
@@ -68,6 +68,19 @@ namespace PileOfPaper
                     Rectangles.Add(cur);
                 }
             }
+
+            /*
+            int width = OriginalRectangles.First().Width;
+            int height = OriginalRectangles.First().Height;
+            foreach (Rectangle r in Rectangles)
+            {
+                if (r.A_X < 0 || r.D_X >= width ||
+                    r.A_Y < 0 || r.D_Y >= height)
+                {
+                    throw new SystemException();
+                }
+            }
+            */
         }
 
         public override string ToString()

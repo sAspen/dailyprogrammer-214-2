@@ -34,6 +34,7 @@ namespace PileOfPaper
                                 Int32.Parse(tokens[2]),
                                 Int32.Parse(tokens[3]),
                                 Int32.Parse(tokens[4])));
+                            //Console.WriteLine("Added " + line);
                         }
                     }
 
